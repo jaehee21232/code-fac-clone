@@ -65,7 +65,7 @@ flutter:
     - asset/img/food/
     - asset/img/logo/
     - asset/svg/icon/
-    - asset/rive
+    - asset/rive/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
