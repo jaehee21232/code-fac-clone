@@ -1,4 +1,5 @@
 import 'package:code_fac/common/component/custom_text_form_field.dart';
+import 'package:code_fac/common/view/splash_screen.dart';
 import 'package:code_fac/user/view/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class _App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: SplashScreen(),
     );
   }
 }
