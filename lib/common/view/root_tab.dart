@@ -1,5 +1,6 @@
 import 'package:code_fac/common/const/colors.dart';
 import 'package:code_fac/common/layout/deafult_layout.dart';
+import 'package:code_fac/restaurant/view/view/restaurant_screen.dart';
 import 'package:flutter/material.dart';
 
 class RootTab extends StatefulWidget {
@@ -9,15 +10,53 @@ class RootTab extends StatefulWidget {
   State<RootTab> createState() => _RootTabState();
 }
 
-class _RootTabState extends State<RootTab> {
+class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
+  late TabController controller;
   int index = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller = TabController(length: 4, vsync: this);
+
+    controller.addListener(
+      () => tabListenr(),
+    );
+  }
+
+  void tabListenr() {
+    setState(() {
+      index = controller.index;
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(tabListenr);
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      title: "코펙 딜리버리",
+      title: "코팩 딜리버리",
       child: Scaffold(
-        body: Center(
-          child: Text("Root 탭"),
+        body: TabBarView(
+          controller: controller,
+          children: [
+            RestaurantScreen(),
+            Container(
+              child: Text("음식"),
+            ),
+            Container(
+              child: Text("주문"),
+            ),
+            Container(
+              child: Text("프로필"),
+            )
+          ],
         ),
         bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: PRIMARY_COLOR,
@@ -26,9 +65,7 @@ class _RootTabState extends State<RootTab> {
           unselectedFontSize: 10.0,
           type: BottomNavigationBarType.fixed,
           onTap: (int index) {
-            setState(() {
-              this.index = index;
-            });
+            controller.animateTo(index);
           },
           currentIndex: index,
           items: [
