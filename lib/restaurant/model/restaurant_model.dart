@@ -26,4 +26,18 @@ class RestaurantModel {
     required this.deliveryTime,
     required this.deliveryFee,
   });
+
+  factory RestaurantModel.item(item) {
+    return RestaurantModel(
+        id: item["id"],
+        name: item["name"],
+        thumbUrl: item["thumbUrl"],
+        tags: List<String>.from(item["tags"]),
+        priceRange: RestaurantPriceRange.values
+            .firstWhere((element) => element.name == item["priceRange"]),
+        ratings: item["ratings"],
+        ratingsCount: item["ratingsCount"],
+        deliveryTime: item["deliveryTime"],
+        deliveryFee: item["deliveryFee"]);
+  }
 }

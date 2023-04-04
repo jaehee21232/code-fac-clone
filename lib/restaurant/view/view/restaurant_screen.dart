@@ -45,17 +45,9 @@ class RestaurantScreen extends StatelessWidget {
                       ratingsCount: item["ratingsCount"],
                       deliveryTime: item["deliveryTime"],
                       deliveryFee: item["deliveryFee"]);
-                  return RestaurantCard(
-                      imgae: Image.network(
-                        "http://$ip${pItem.thumbUrl}",
-                        fit: BoxFit.cover,
-                      ),
-                      name: pItem.name,
-                      tags: pItem.tags,
-                      ratingCounts: pItem.ratingsCount,
-                      delivertTime: pItem.deliveryTime,
-                      delivertFee: pItem.deliveryFee,
-                      ratings: pItem.ratings);
+                  return RestaurantCard.fromModel(
+                    model: pItem,
+                  );
                 },
                 separatorBuilder: (context, index) {
                   return SizedBox(

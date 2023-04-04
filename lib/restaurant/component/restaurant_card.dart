@@ -1,8 +1,10 @@
 import 'package:code_fac/common/const/colors.dart';
+import 'package:code_fac/common/const/data.dart';
+import 'package:code_fac/restaurant/model/restaurant_model.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantCard extends StatelessWidget {
-  final Widget imgae;
+  final Widget image;
   final String name;
   final List<String> tags;
   final int ratingCounts;
@@ -11,7 +13,7 @@ class RestaurantCard extends StatelessWidget {
   final double ratings;
   const RestaurantCard({
     super.key,
-    required this.imgae,
+    required this.image,
     required this.name,
     required this.tags,
     required this.ratingCounts,
@@ -19,6 +21,21 @@ class RestaurantCard extends StatelessWidget {
     required this.delivertFee,
     required this.ratings,
   });
+  factory RestaurantCard.fromModel({
+    required RestaurantModel model,
+  }) {
+    return RestaurantCard(
+        image: Image.network(
+          "http://$ip${model.thumbUrl}",
+          fit: BoxFit.cover,
+        ),
+        name: model.name,
+        tags: model.tags,
+        ratingCounts: model.ratingsCount,
+        delivertTime: model.deliveryTime,
+        delivertFee: model.deliveryFee,
+        ratings: model.ratings);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +43,7 @@ class RestaurantCard extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(12.0),
-          child: imgae,
+          child: image,
         ),
         const SizedBox(
           height: 16,
