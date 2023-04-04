@@ -5,7 +5,7 @@ class RestaurantCard extends StatelessWidget {
   final Widget imgae;
   final String name;
   final List<String> tags;
-  final int ratingCount;
+  final int ratingCounts;
   final int delivertTime;
   final int delivertFee;
   final double ratings;
@@ -14,7 +14,7 @@ class RestaurantCard extends StatelessWidget {
     required this.imgae,
     required this.name,
     required this.tags,
-    required this.ratingCount,
+    required this.ratingCounts,
     required this.delivertTime,
     required this.delivertFee,
     required this.ratings,
@@ -60,7 +60,7 @@ class RestaurantCard extends StatelessWidget {
                 renderDor(),
                 _IconText(
                   icon: Icons.receipt,
-                  label: ratingCount.toString(),
+                  label: ratingCounts.toString(),
                 ),
                 renderDor(),
                 _IconText(
