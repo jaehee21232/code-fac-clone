@@ -27,17 +27,17 @@ class RestaurantModel {
     required this.deliveryFee,
   });
 
-  factory RestaurantModel.item(item) {
+  factory RestaurantModel.fromjson({required Map<String, dynamic> json}) {
     return RestaurantModel(
-        id: item["id"],
-        name: item["name"],
-        thumbUrl: item["thumbUrl"],
-        tags: List<String>.from(item["tags"]),
+        id: json["id"],
+        name: json["name"],
+        thumbUrl: json["thumbUrl"],
+        tags: List<String>.from(json["tags"]),
         priceRange: RestaurantPriceRange.values
-            .firstWhere((element) => element.name == item["priceRange"]),
-        ratings: item["ratings"],
-        ratingsCount: item["ratingsCount"],
-        deliveryTime: item["deliveryTime"],
-        deliveryFee: item["deliveryFee"]);
+            .firstWhere((element) => element.name == json["priceRange"]),
+        ratings: json["ratings"],
+        ratingsCount: json["ratingsCount"],
+        deliveryTime: json["deliveryTime"],
+        deliveryFee: json["deliveryFee"]);
   }
 }
