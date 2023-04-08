@@ -28,6 +28,7 @@ class RestaurantModel {
   });
 
   factory RestaurantModel.fromjson({required Map<String, dynamic> json}) {
+    print(json["tags"]);
     return RestaurantModel(
         id: json["id"],
         name: json["name"],
