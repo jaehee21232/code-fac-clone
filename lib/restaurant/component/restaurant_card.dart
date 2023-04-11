@@ -31,7 +31,7 @@ class RestaurantCard extends StatelessWidget {
   }) {
     return RestaurantCard(
       image: Image.network(
-        "http://$ip${model.thumbUrl}",
+        "${model.thumbUrl}",
         fit: BoxFit.cover,
       ),
       name: model.name,
@@ -47,7 +47,6 @@ class RestaurantCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(" tasdasdasd");
     return Column(
       children: [
         if (isDetail) image,
