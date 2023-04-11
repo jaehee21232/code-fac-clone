@@ -4,6 +4,7 @@ import 'package:code_fac/product/component/procduct_card.dart';
 import 'package:code_fac/restaurant/component/restaurant_card.dart';
 import 'package:code_fac/restaurant/model/restaurant_detail_model.dart';
 import 'package:code_fac/restaurant/model/restaurant_model.dart';
+import 'package:code_fac/restaurant/repository/restaurant_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -13,33 +14,35 @@ class RestaurantDetailScreen extends StatelessWidget {
     super.key,
     required this.id,
   });
-  Future<Map<String, dynamic>> getRestaurantDetail() async {
+  Future<RestaurantDetailModel> getRestaurantDetail() async {
     final dio = Dio();
-    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-    final resp = await dio.get(
-      "http://$ip/restaurant/$id",
-      options: Options(headers: {"authorization": "Bearer $accessToken"}),
-    );
 
-    return resp.data;
+    final repository =
+        RestaurantRepository(dio, baseUrl: "http://$ip/restaurant");
+
+    return repository.getRestaurantDetail(id: id);
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
         title: "불타는 떡볶이",
-        child: FutureBuilder<Map<String, dynamic>>(
+        child: FutureBuilder<RestaurantDetailModel>(
           future: getRestaurantDetail(),
           builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(snapshot.error.toString()),
+              );
+            }
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
             }
-            final item = RestaurantDetailModel.fromJson(json: snapshot.data!);
             return CustomScrollView(
               slivers: [
-                renderTop(model: item),
+                renderTop(model: snapshot.data!),
                 renderLabel(),
-                renderProducts(products: item.product),
+                renderProducts(products: snapshot.data!.product),
               ],
             );
           },
