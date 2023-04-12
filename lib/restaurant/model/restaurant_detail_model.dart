@@ -33,25 +33,30 @@ class RestaurantDetailModel extends RestaurantModel {
     required this.product,
   });
 
-  factory RestaurantDetailModel.fromJson(Map<String, dynamic> json) =>
-      _$RestaurantDetailModelFromJson(json);
+  factory RestaurantDetailModel.fromJson(Map<String, dynamic> json) {
+    print(json);
+    return _$RestaurantDetailModelFromJson(json);
+  }
 }
 
 @JsonSerializable()
 class RestaurantProductModel {
   final String id;
   final String name;
-  @JsonKey(fromJson: DataUtils.pathToUrl)
+  @JsonKey(
+    fromJson: DataUtils.pathToUrl,
+  )
   final String imgUrl;
   final String detail;
   final int price;
 
-  RestaurantProductModel(
-      {required this.id,
-      required this.name,
-      required this.imgUrl,
-      required this.detail,
-      required this.price});
+  RestaurantProductModel({
+    required this.id,
+    required this.name,
+    required this.imgUrl,
+    required this.detail,
+    required this.price,
+  });
 
   factory RestaurantProductModel.fromJson(Map<String, dynamic> json) =>
       _$RestaurantProductModelFromJson(json);

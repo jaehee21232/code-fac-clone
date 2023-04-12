@@ -14,7 +14,11 @@ abstract class RestaurantRepository {
   // paginate();
 
   //http//$ip/restaurant/:id
+
   @GET("/{id}") //레트로핏에서 변수 넣으려면 {변수}
+  @Headers({
+    "accessToken": "true",
+  })
   Future<RestaurantDetailModel> getRestaurantDetail({
     @Path() required String id,
   });
