@@ -14,6 +14,8 @@ class CustomInterceptor extends Interceptor {
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     print("[REQ] [${options.method}] ${options.uri}");
+
+    //헤더에서 accessToken이 true이면 삭제하고 authorization : Bearer token으로 토큰 받기
     if (options.headers["accessToken"] == "true") {
       options.headers.remove("accessToken");
       final token = await storage.read(key: ACCESS_TOKEN_KEY);
@@ -45,6 +47,8 @@ class CustomInterceptor extends Interceptor {
     }
     final isStatus401 = err.response?.statusCode == 401;
     final isPathRefresh = err.requestOptions.path == "/auth/token";
+
+    //401이면서 토큰 변경이 필요할때
     if (isStatus401 && !isPathRefresh) {
       final dio = Dio();
       try {
