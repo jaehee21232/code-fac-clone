@@ -32,7 +32,6 @@ class RestaurantDetailScreen extends StatelessWidget {
           future: getRestaurantDetail(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              print(snapshot.data);
               return Center(
                 child: Text(snapshot.error.toString()),
               );
@@ -44,7 +43,7 @@ class RestaurantDetailScreen extends StatelessWidget {
               slivers: [
                 renderTop(model: snapshot.data!),
                 renderLabel(),
-                renderProducts(products: snapshot.data!.product),
+                renderProducts(products: snapshot.data!.products),
               ],
             );
           },
