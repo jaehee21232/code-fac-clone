@@ -1,6 +1,8 @@
 import 'package:code_fac/common/const/data.dart';
+import 'package:code_fac/common/dio/dio.dart';
 import 'package:code_fac/restaurant/component/restaurant_card.dart';
 import 'package:code_fac/restaurant/model/restaurant_model.dart';
+import 'package:code_fac/restaurant/repository/restaurant_repository.dart';
 import 'package:code_fac/restaurant/view/view/restaurant_detail_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -8,23 +10,23 @@ import 'package:flutter/material.dart';
 class RestaurantScreen extends StatelessWidget {
   const RestaurantScreen({super.key});
 
-  Future<List> paginateRestaurant() async {
+  Future<List<RestaurantModel>> paginateRestaurant() async {
     final dio = Dio();
-    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-    final resp = await dio.get(
-      "http://$ip/restaurant",
-      options: Options(
-        headers: {"authorization": "Bearer $accessToken"},
-      ),
+    dio.interceptors.add(
+      CustomInterceptor(storage: storage),
     );
-    return resp.data["data"];
+    final resp =
+        await RestaurantRepository(dio, baseUrl: "http://$ip/restaurant")
+            .paginate();
+
+    return resp.data;
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: FutureBuilder<List>(
+        child: FutureBuilder<List<RestaurantModel>>(
           future: paginateRestaurant(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
@@ -35,8 +37,7 @@ class RestaurantScreen extends StatelessWidget {
             return ListView.separated(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
-                final item = snapshot.data![index];
-                final pItem = RestaurantModel.fromJson(item);
+                final pItem = snapshot.data![index];
                 return GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
